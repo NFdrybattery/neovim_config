@@ -13,7 +13,7 @@ return {
         statusline = 1000,
         tabline = 1000,
         winbar = 1000,
-      },
+      }, 
     },
   },
   config = function(_, opts)

@@ -5,8 +5,11 @@ return {
     lazy = true,
     opts = {
         ensure_installed = {
+            "python-lsp-server",
             "ruff",
-            "pylsp",
+            --"jedi-language-server", 
+            --"pyright",
+            -- "yapf", 
         },
     },
 }

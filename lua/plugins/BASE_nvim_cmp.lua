@@ -5,7 +5,7 @@ return {
   event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
+    -- "hrsh7th/cmp-buffer",
     --"hrsh7th/cmp-path",
   },
   opts = function()
@@ -34,10 +34,15 @@ return {
         end,
       }),
       sources = cmp.config.sources({
-        { name = 'fittencode', priority = 100},
-        { name = "nvim_lsp", priority = 80},
-        --{ name = "buffer", priority = 10},
+        -- { name = "copilot", priority = 100 },
+        { name = "fittencode", priority = 99},
+        -- { name = "buffer", priority = 80},
+        { name = "nvim_lsp", priority = 90},
       }),
+      window = {
+        completion = cmp.config.window.bordered({border = 'single',}),
+        documentation = cmp.config.window.bordered({border = 'solid',}),
+      },
       formatting = {
         format = function(entry, item)
           local icons = LazyVim.config.icons.kinds
@@ -67,10 +72,10 @@ return {
       },
       sorting = {
         comparators = {
-          cmp.config.compare.priority, -- 按优先级排序
           cmp.config.compare.exact,    -- 精确匹配优先
           cmp.config.compare.locality, -- 按距离排序
-          cmp.config.compare.sort_text, -- lsp排序
+          cmp.config.compare.priority, -- 按优先级排序
+          --cmp.config.compare.sort_text, -- lsp排序
           --cmp.config.compare.score,    -- 按匹配分数排序
           --cmp.config.compare.kind,     -- 按补全项类型排序
           --cmp.config.compare.length,   -- 按补全项长度排序

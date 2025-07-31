@@ -14,6 +14,7 @@ if vim.g.neovide then
   vim.g.neovide_font_subpixel = true -- 字体渲染
   vim.g.neovide_font_italic = true -- 启用斜体
   vim.g.neovide_detach_on_quit = 'always_quit' -- 退出时分离
+  vim.g.neovide_backend = "dx11"
   -- 界面设置
   vim.g.neovide_title_background_color = "#222436" -- 背景颜色
   vim.g.neovide_title_text_color = "#65BCFF" -- 标题文字颜色
@@ -32,11 +33,12 @@ if vim.g.neovide then
   vim.g.neovide_scroll_animation_length = 0.2 --滚动动画时长
   vim.g.neovide_scroll_animation_far_lines = 1 -- 远距离滚动行数
   vim.g.neovide_cursor_smooth_blink = true -- 光标闪烁
-
+  --内存设置
+  vim.g.neovide_no_idle = true  -- 禁止空闲时占用资源
 end
 -- 基本设置
 local opt = vim.opt
-opt.guifont = { "JetBrainsMono NFP", "Maple Mono SC NF", ":h12" }
+opt.guifont = { "JetBrainsMono NFP", "Maple Mono NF CN", ":h12" }
 opt.wrap = false
 opt.relativenumber = true
 opt.shiftwidth = 4

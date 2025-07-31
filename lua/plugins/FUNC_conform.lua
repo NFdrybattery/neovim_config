@@ -1,27 +1,46 @@
+-- 自动获取pyproject.toml文件位置
 return {
   {
     "stevearc/conform.nvim",
     lazy = true,
     vscode = false,
-    --event = "VeryLazy", -- 延迟加载
-    opts = {
-      formatters_by_ft = {
-        python = { "yapf" }, -- Python 文件使用yapf格式化
-      },
-      formatters = {
-        yapf = {
-          args = { "--style=pyproject.toml" }, -- 移除--in-place参数
-          prepend_args = {},                   -- 清空其他参数
+    opts = function()
+      -- 查找 .venv 目录
+      local venv_dir = vim.fn.finddir(".venv", ".;")
+      local pyproject_path = nil
+      
+      if venv_dir ~= "" then
+        -- 获取项目根目录（.venv 的父目录）
+        local project_root = vim.fn.fnamemodify(venv_dir, ":h")
+        pyproject_path = project_root .. "/pyproject.toml"
+        
+        -- 检查 pyproject.toml 是否存在
+        if vim.fn.filereadable(pyproject_path) == 0 then
+          pyproject_path = nil
+        end
+      end
+      
+      return {
+        formatters_by_ft = {
+          python = { "yapf" },
         },
-      },
-    },
+        formatters = {
+          yapf = {
+		    command = "yapf",
+            args = pyproject_path and { "--style=" .. pyproject_path } or {},
+            stdin = true,
+			timeout_ms = 8000,
+          },
+        },
+      }
+    end,
     keys = {
       {
-        "<leader>cf", -- 快捷键
+        "<leader>cf",
         function()
-          require("conform").format() -- 调用 conform.nvim 的格式化函数
+          require("conform").format()
         end,
-        desc = "格式化代码", -- 快捷键描述
+        desc = "格式化代码",
       },
     },
   },

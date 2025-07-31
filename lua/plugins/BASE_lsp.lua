@@ -70,6 +70,42 @@ return {
       -- LSP Server Settings
       --@type lspconfig.options
       servers = {
+        -- pyright启用代码跳转、补全、类型检查功能
+        -- pyright = {
+        --   settings = {
+        --     python = {
+        --       analysis = {
+        --         typeCheckingMode = "off",               -- 关闭类型检查（关键性能优化）
+        --         diagnosticMode = "openFilesOnly",       -- 仅分析打开的文件
+        --         disableBackgroundAnalysis = true,       -- 完全关闭后台分析
+        --         disableOrganizeImports = true,          -- 禁用自动导入整理
+        --         autoSearchPaths = false,                -- 自动搜索路径
+        --         diagnosticSeverityOverrides = {
+        --           reportUnusedImport = "information",   -- 未使用的导入
+        --           reportMissingImports = "error",       -- 缺失的导入
+        --           reportUnusedVariable = "information"  -- 未使用的变量
+        --         }, 
+        --         exclude = {
+        --           "**/.venv/**", 
+        --           "**/__pycache__/**", 
+        --           "**/.history/**", 
+        --           "**/.file_backups/**", 
+        --         },                                      -- 忽略非项目目录
+        --         incremental = true,                     -- 启用增量分析
+        --         useLibraryCodeForTypes = false,         -- 
+        --         pythonPath = vim.fn.getcwd().."/.venv/Scripts/python.exe",  -- 显式指定Python路径
+        --       },
+        --     },
+        --   }, 
+        --   -- textDocumentSync = {
+        --   --   change = 2,  -- 2 表示增量同步（Incremental）
+        --   --   openClose = true,
+        --   --   save = { includeText = false },
+        --   -- },
+        --   flags = {
+        --     debounce_text_changes = 300                -- 防抖延迟（毫秒）
+        --   }, 
+        -- }, 
         pylsp = {
           settings = {
             pylsp = {
@@ -89,31 +125,31 @@ return {
                 autopep8 = { enabled = false },
                 black = { enabled = false },
                 rope = { enabled = false },
-                rope_autoimport = { enabled = false },
-                rope_completion = { enabled = false },
                 preload = { enabled = false },
                 pylsp_mypy = { enabled = false }
               },
             },
           },
         },
+        -- ruff启用静态分析、代码修复功能，代码分析配置项在pyproject.toml定义
         ruff = {
           init_options = {
             settings = {
-              -- 静态分析（默认启用）
-              lint = { enable = true},
+              lint = { enable = true},  -- 静态分析（默认启用）
               format = { enable = false},
-              organizeImports = false,         -- 禁用自动整理导入
-              fixAll = false,                  -- 禁用自动修复所有问题
-              hover = false,                   -- 禁用悬浮提示（需手动开启）
-              codeAction = { enable = false }, -- 禁用代码操作（如快速修复）
+              organizeImports = true,         -- 禁用自动整理导入
+              fixAll = false,                  -- 自动修复所有问题
+              hover = { enable = false },                   -- 禁用悬浮提示（需手动开启）
+              codeAction = { enable = false }, -- 代码操作（如快速修复）
+              definition = { enable = false }, -- 必须启用定义跳转
+              references = { enable = false }, -- 启用引用查找（可选）
             },
           },
-          handlers = {
-            ["textDocument/definition"] = function() return nil end,
-            ["textDocument/references"] = function() return nil end, 
-            ["textDocument/hover"] = function() return nil end,
-          }, 
+          -- handlers = {
+          --   ["textDocument/definition"] = function() return nil end,
+          --   ["textDocument/references"] = function() return nil end, 
+          --   ["textDocument/hover"] = function() return nil end,
+          -- }, 
         },
       },
       -- you can do any additional lsp server setup here
@@ -128,7 +164,6 @@ return {
         -- Specify * to use this function as a fallback for any server
         -- ["*"] = function(server, opts) end,
       },
-
     }
     return ret
   end,

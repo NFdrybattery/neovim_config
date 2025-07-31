@@ -8,7 +8,7 @@ return{
     spec ={
       {
         { "<leader>y", desc = "剪切板", icon = "" },
-        { "<leader>uv", desc = "变量显示", icon = "󰫧" },
+        --{ "<leader>uv", desc = "变量显示", icon = "󰫧" },
         -- CodeCompanion
         { "<leader>a", group = "Chat", icon = " "},
         { "<leader>aa", desc = "问答", icon = "󰭻" }, 
