@@ -1,7 +1,9 @@
 -- flash插件，字符查找跳转
 return {
     "folke/flash.nvim",
-    event = "VeryLazy",
+	-- version = "*",
+	lazy = true,
+	-- event = { "BufReadPre", "BufNewFile" }, -- 确保插件在打开文件时加载
     vscode = true,
     opts = {},
     keys = {

@@ -1,9 +1,9 @@
 -- nvim v0.8.0
 return {
     "kdheepak/lazygit.nvim",
+    version = "*",
     lazy = true,
     vscode = false,
-    --event = "VeryLazy", -- 延迟加载
     cmd = {
         "LazyGit",
         "LazyGitConfig",

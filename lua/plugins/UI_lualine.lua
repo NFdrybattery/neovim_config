@@ -1,6 +1,7 @@
 -- lualine状态栏插件
 return {
   'nvim-lualine/lualine.nvim',
+  -- version = "*",
   vscode = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons"

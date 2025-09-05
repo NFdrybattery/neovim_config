@@ -1,0 +1,14 @@
+-- Copilot
+return {
+  {
+    "zbirenbaum/copilot.lua",
+    version = "*",
+    vscode = false,
+    -- cmd = "Copilot",
+    -- event = "BufReadPost",
+    opts = {
+      suggestion = { enabled = true },
+      panel = { enabled = false },
+    }, 
+  },
+}

@@ -1,8 +1,9 @@
 -- miniai插件，更好的内容选择
 return {
     "echasnovski/mini.ai",
+	-- version = "*",
+	lazy = true,
     vscode = true,
-    event = "VeryLazy",
     opts = function()
         local ai = require("mini.ai")
         return {

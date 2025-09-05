@@ -2,8 +2,10 @@
 return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
+    -- version = "*",
+    lazy = true,
     vscode = false,
-    event = "VeryLazy", -- 延迟加载
+    -- event = "VeryLazy", -- 延迟加载
     opts= {
       -- 核心禁用设置
       context = "none", 

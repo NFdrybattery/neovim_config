@@ -29,6 +29,7 @@ require("lazy").setup({
     -- have outdated releases, which may break your Neovim install.
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
+    install_timeout = 30000,
   },
   install = { colorscheme = { "tokyonight" } },
   checker = {
@@ -40,9 +41,9 @@ require("lazy").setup({
       -- disable some rtp plugins
       disabled_plugins = {
         "gzip",
-        -- "matchit",
+        "matchit",
         -- "matchparen",
-        -- "netrwPlugin",
+        "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",
@@ -53,6 +54,7 @@ require("lazy").setup({
   opts = {
     git = {
       url_format = "git@github.com:%s.git", -- 强制所有插件走 SSH
+      -- timeout = 3000,
     },
   },
 })

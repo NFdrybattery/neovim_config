@@ -1,8 +1,8 @@
 return {
   "neovim/nvim-lspconfig",
+  version = "*",
   lazy = true,
   event = "LazyFile",
-  vscode = false,
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -10,20 +10,14 @@ return {
   opts = function()
     ---@class PluginLspOpts
     local ret = {
-      -- options for vim.diagnostic.config()
-      ---@type vim.diagnostic.Opts
+      -- 诊断配置
       diagnostics = {
         underline = true,
         update_in_insert = false,
         virtual_text = {
           spacing = 4,
           source = "if_many",
-          width = 60,  -- 限制诊断文本宽度
-          wrap = true, -- 自动换行
           prefix = "■",
-          -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-          -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-          -- prefix = "icons",
         },
         severity_sort = true,
         signs = {
@@ -35,20 +29,19 @@ return {
           },
         },
       },
-      -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the inlay hints.
+      
+      -- 内联提示
       inlay_hints = {
         enabled = true,
-        exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
+        exclude = { "vue" },
       },
-      -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the code lenses.
+      
+      -- 代码镜头
       codelens = {
         enabled = false,
       },
-      -- add any global capabilities here
+      
+      -- 全局能力
       capabilities = {
         workspace = {
           fileOperations = {
@@ -57,65 +50,24 @@ return {
           },
         },
       },
-      --flags = {
-      --debounce_text_changes = 1000, -- 设置文本更改的防抖时间为 1000 毫秒
-      --},
-      -- options for vim.lsp.buf.format
-      -- `bufnr` and `filter` is handled by the LazyVim formatter,
-      -- but can be also overridden when specified
+
+      -- 格式化选项
       format = {
         formatting_options = nil,
         timeout_ms = nil,
       },
-      -- LSP Server Settings
-      --@type lspconfig.options
       servers = {
-        -- pyright启用代码跳转、补全、类型检查功能
-        -- pyright = {
-        --   settings = {
-        --     python = {
-        --       analysis = {
-        --         typeCheckingMode = "off",               -- 关闭类型检查（关键性能优化）
-        --         diagnosticMode = "openFilesOnly",       -- 仅分析打开的文件
-        --         disableBackgroundAnalysis = true,       -- 完全关闭后台分析
-        --         disableOrganizeImports = true,          -- 禁用自动导入整理
-        --         autoSearchPaths = false,                -- 自动搜索路径
-        --         diagnosticSeverityOverrides = {
-        --           reportUnusedImport = "information",   -- 未使用的导入
-        --           reportMissingImports = "error",       -- 缺失的导入
-        --           reportUnusedVariable = "information"  -- 未使用的变量
-        --         }, 
-        --         exclude = {
-        --           "**/.venv/**", 
-        --           "**/__pycache__/**", 
-        --           "**/.history/**", 
-        --           "**/.file_backups/**", 
-        --         },                                      -- 忽略非项目目录
-        --         incremental = true,                     -- 启用增量分析
-        --         useLibraryCodeForTypes = false,         -- 
-        --         pythonPath = vim.fn.getcwd().."/.venv/Scripts/python.exe",  -- 显式指定Python路径
-        --       },
-        --     },
-        --   }, 
-        --   -- textDocumentSync = {
-        --   --   change = 2,  -- 2 表示增量同步（Incremental）
-        --   --   openClose = true,
-        --   --   save = { includeText = false },
-        --   -- },
-        --   flags = {
-        --     debounce_text_changes = 300                -- 防抖延迟（毫秒）
-        --   }, 
-        -- }, 
         pylsp = {
+          -- offset_encoding = 'utf-8',
           settings = {
             pylsp = {
               plugins = {
-                ruff = { enabled = false },
                 jedi = { 
                   enabled = true,
-                  --environment = vim.fn.getcwd().."/.venv/Scripts/python.exe", -- 虚拟环境路径
-                  --extra_paths = { vim.fn.getcwd().."/.venv/Lib/site-packages"}, 
+                  environment = vim.fn.getcwd().."/.venv/Scripts/python.exe", -- 虚拟环境路径
+                  extra_paths = { vim.fn.getcwd().."/.venv/Lib/site-packages"}, 
                 },
+                ruff = { enabled = false },
                 pylsp_yapf = { enabled = false },
                 flake8 = { enabled = false },
                 mccabe = { enabled = false },
@@ -131,30 +83,24 @@ return {
             },
           },
         },
-        -- ruff启用静态分析、代码修复功能，代码分析配置项在pyproject.toml定义
         ruff = {
-          init_options = {
-            settings = {
-              lint = { enable = true},  -- 静态分析（默认启用）
-              format = { enable = false},
-              organizeImports = true,         -- 禁用自动整理导入
-              fixAll = false,                  -- 自动修复所有问题
-              hover = { enable = false },                   -- 禁用悬浮提示（需手动开启）
-              codeAction = { enable = false }, -- 代码操作（如快速修复）
-              definition = { enable = false }, -- 必须启用定义跳转
-              references = { enable = false }, -- 启用引用查找（可选）
-            },
-          },
-          -- handlers = {
-          --   ["textDocument/definition"] = function() return nil end,
-          --   ["textDocument/references"] = function() return nil end, 
-          --   ["textDocument/hover"] = function() return nil end,
-          -- }, 
+          -- offset_encoding = 'utf-16',
+          on_attach = function(client, bufnr)
+            client.offset_encoding = 'utf-16'
+          end,
+          -- root_dir = require("lspconfig").util.root_pattern(".git", "pyproject.toml"),
+          -- flags = {
+          --   debounce_text_changes = 0, -- 文本更改防抖时间（毫秒）
+          -- },
+          -- settings = {
+          --   lint = { enable = true },
+          --   format = { enable = false },
+          -- },
         },
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
-      --@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
         -- example to setup with typescript.nvim
         -- tsserver = function(_, opts)
@@ -196,9 +142,9 @@ return {
       if opts.inlay_hints.enabled then
         LazyVim.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
           if
-              vim.api.nvim_buf_is_valid(buffer)
-              and vim.bo[buffer].buftype == ""
-              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+            vim.api.nvim_buf_is_valid(buffer)
+            and vim.bo[buffer].buftype == ""
+            and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
           then
             vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
           end
@@ -219,14 +165,14 @@ return {
 
     if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
       opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-          or function(diagnostic)
-            local icons = LazyVim.config.icons.diagnostics
-            for d, icon in pairs(icons) do
-              if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                return icon
-              end
+        or function(diagnostic)
+          local icons = LazyVim.config.icons.diagnostics
+          for d, icon in pairs(icons) do
+            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+              return icon
             end
           end
+        end
     end
 
     vim.diagnostic.config(vim.deepcopy(opts.diagnostics))

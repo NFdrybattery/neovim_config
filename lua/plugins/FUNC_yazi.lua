@@ -1,7 +1,9 @@
 
 return{
   "mikavilpas/yazi.nvim",
-  event = "VeryLazy",
+  version = "*",
+  lazy = true,
+  -- event = "VeryLazy",
   dependencies = {
     { "nvim-lua/plenary.nvim", lazy = true },
   },
@@ -11,7 +13,7 @@ return{
       "<leader>-",
       mode = { "n", "v" },
       "<cmd>Yazi<cr>",
-      desc = "Open yazi at the current file",
+      desc = "Open yazi",
     },
     {
       -- Open in the current working directory

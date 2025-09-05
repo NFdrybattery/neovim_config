@@ -1,10 +1,11 @@
 -- 待办标签
 return{
   "folke/todo-comments.nvim",
-  dependencies = { "nvim-lua/plenary.nvim" },
+  -- version = "*",
   lazy = true,
   vscode = false,
-  event = { "BufReadPre", "BufNewFile" }, -- 确保插件在打开文件时加载
+  -- event = { "BufReadPre", "BufNewFile" }, -- 确保插件在打开文件时加载
+  dependencies = { "nvim-lua/plenary.nvim" },
   opts = {
 	keywords = {
     FIX = {

@@ -2,7 +2,8 @@
 return {
   {
     "rcarriga/nvim-dap-ui",
-    lazy = true,
+	-- version = "*",
+    -- lazy = true,
     vscode = false,
     -- 使用DapStarted事件触发加载，避免循环依赖
     event = "User DapStarted",

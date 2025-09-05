@@ -1,8 +1,10 @@
 -- lazy.nvim
 return {
     "folke/noice.nvim",
+	-- version = "*",
+	lazy = true,
     vscode = false,
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     opts = {
         lsp = {
             override = {

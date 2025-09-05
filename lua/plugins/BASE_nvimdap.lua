@@ -1,9 +1,9 @@
 return {
   {
     "mfussenegger/nvim-dap",
+	-- version = "*",
     lazy = true,
     vscode = false,
-    ft = { "python" },
     keys = { "<leader>dd" },
     dependencies = {
       "rcarriga/nvim-dap-ui",

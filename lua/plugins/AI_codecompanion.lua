@@ -1,6 +1,7 @@
 -- codecompanion插件
 return {
   "olimorris/codecompanion.nvim",
+  version = "*",
   lazy = true,
   vscode = false,
   dependencies = {
@@ -21,7 +22,7 @@ return {
         language = "Chinese", -- 设置默认语言为中文
         send_code = false,    -- 是否发送代码上下文（根据需求调整）
         system_prompt = function(opts)
-          return "你是一个智能编程助手，请用中文回答以下问题，保持简洁、准确、专业，对代码函数用法的问题给出示范用法。控制token数在1024以内。"
+          return "你是一个智能编程助手，请用中文回答以下问题，保持简洁、准确、专业，对代码函数用法的问题给出简单的示范用法。"
         end,
       },
       adapters = {
@@ -32,35 +33,67 @@ return {
             },
           })
         end,
-      },
+        glm = function()
+          return{
+            name = "glm",
+            url  = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+            env  = { api_key = os.getenv("GLM_API_KEY") },
+            headers = {
+              ["Authorization"] = "Bearer ${api_key}",
+              ["Content-Type"]  = "application/json",
+            },
+            opts = { stream = true, tools = false },
+            handlers = {
+              setup = function(self) return true end,
+              form_messages = function(self, msgs) return { messages = msgs } end,
+              chat_output = function(self, data) return { status="success", output=data } end,
+            },
+            schema = {
+              model = { default = "glm-4.5-flash" },
+              temperature = { type="number", default=0.7 },
+            },
+          }
+        end
+      }, 
       -- 策略配置
       strategies = {
         chat = {
+          -- adapter = {
+          --   name = "deepseek",
+          --   model = 'deepseek-chat',
+          --   max_tokens = 1024,
+          --   temperature = 0.7, -- 可选：控制生成结果的随机性
+          -- },
           adapter = {
-            name = "deepseek",
-            model = 'deepseek-chat',
+            name = "glm",
+            model = 'glm-4.5-flash',
             max_tokens = 1024,
             temperature = 0.7, -- 可选：控制生成结果的随机性
           },
           roles = {
             llm = "󱢴 | DeepSeek",
+            -- llm = " | GLM-4.5",
             user = "󰠗 |",
           },
           auto_scroll = true,
           opts = {
-            completion_provider = "cmp", -- blink|cmp|coc|default
+            completion_provider = "blink", -- blink|cmp|coc|default
           },
         },
         inline = {
           adapter = {
-            name = "deepseek",
-            model = "deepseek-chat",
+            -- name = "deepseek",
+            -- model = "deepseek-chat",
+            name = "glm",
+            model = "glm-4.5-flash",
           }
         },
         agent = {
           adapter = {
-            name = "deepseek",
-            model = "deepseek-chat",
+            -- name = "deepseek",
+            -- model = "deepseek-chat",
+            name = "glm",
+            model = "glm-4.5-flash",
           }
         },
       },
@@ -125,9 +158,11 @@ return {
             auto_generate_title = true,
             title_generation_opts = {
               ---Adapter for generating titles (defaults to active chat's adapter)
-              adapter = "deepseek",           -- e.g "copilot"
+              -- adapter = "deepseek",           -- e.g "copilot"
+              adapter = "glm",
               ---Model for generating titles (defaults to active chat's model)
-              model = "deepseek-chat",        -- e.g "gpt-4o"
+              -- model = "deepseek-chat",        -- e.g "gpt-4o"
+              model = "glm",
               ---Number of user prompts after which to refresh the title (0 to disable)
               refresh_every_n_prompts = 10,   -- e.g., 3 to refresh after every 3rd user prompt
               ---Maximum number of times to refresh the title (default: 3)
