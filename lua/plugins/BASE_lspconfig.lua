@@ -4,8 +4,8 @@ return {
   lazy = true,
   event = "LazyFile",
   dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason.nvim",
+    "mason-org/mason-lspconfig.nvim",
   },
   opts = function()
     ---@class PluginLspOpts
@@ -44,13 +44,17 @@ return {
       -- 全局能力
       capabilities = {
         workspace = {
+          workspaceFolders = true, 
           fileOperations = {
             didRename = true,
             willRename = true,
           },
         },
+        textDocument = {
+          positionEncoding = { "utf-16" }  -- 明确指定 UTF-8 优先
+        }, 
       },
-
+      -- debounce_text_changes = 100,
       -- 格式化选项
       format = {
         formatting_options = nil,
@@ -58,17 +62,54 @@ return {
       },
       servers = {
         pylsp = {
-          -- offset_encoding = 'utf-8',
+          -- capabilities = {
+          --   textDocument = {
+          --     positionEncoding = { "utf-8" }  -- 强制 UTF-8
+          --   }
+          -- },
           settings = {
             pylsp = {
               plugins = {
                 jedi = { 
                   enabled = true,
-                  environment = vim.fn.getcwd().."/.venv/Scripts/python.exe", -- 虚拟环境路径
-                  extra_paths = { vim.fn.getcwd().."/.venv/Lib/site-packages"}, 
+                  -- environment = vim.fn.getcwd().."/.venv/Scripts/python.exe", -- 虚拟环境路径
+                  -- extra_paths = { vim.fn.getcwd().."/.venv/Lib/site-packages"}, 
+                  -- 补全设置
+                  -- completion = {
+                  --   enabled = false,
+                  -- },
+                  -- 诊断设置
+                  -- diagnostics = {
+                  --   enabled = false,
+                  -- },
+                  -- 悬停提示设置
+                  -- hover = {
+                  --   enabled = false,
+                  -- },
+                  -- 导入完成设置
+                  -- import_completion = {
+                  --   enabled = false,
+                  -- },
+                  -- 导航设置
+                  -- navigation = {
+                  --   enabled = true,
+                  --   -- doc_url_format = "https://docs.python.org/{version}/{path}",
+                  --   definitions = true,
+                  --   references = true,
+                  --   symbols = true,
+                  --   keywords = true,
+                  -- },
+                  -- 格式化支持
+                  -- signature_help = {
+                  --   enabled = false,
+                  -- },
+                  -- 其他设置
+                  -- max_memory = 4096,  -- 最大内存(MB)
+                  -- completion_cache = false,
+                  -- merge_output_from_stdin = true,
                 },
-                ruff = { enabled = false },
-                pylsp_yapf = { enabled = false },
+                ruff = { enabled = true },
+                pylsp_yapf = { enabled = true },
                 flake8 = { enabled = false },
                 mccabe = { enabled = false },
                 pycodestyle = { enabled = false },
@@ -84,18 +125,15 @@ return {
           },
         },
         ruff = {
-          -- offset_encoding = 'utf-16',
-          on_attach = function(client, bufnr)
-            client.offset_encoding = 'utf-16'
-          end,
-          -- root_dir = require("lspconfig").util.root_pattern(".git", "pyproject.toml"),
-          -- flags = {
-          --   debounce_text_changes = 0, -- 文本更改防抖时间（毫秒）
-          -- },
-          -- settings = {
-          --   lint = { enable = true },
-          --   format = { enable = false },
-          -- },
+          capabilities = {
+            textDocument = {
+              positionEncoding = { "utf-16" }  -- 强制 UTF-8
+            }, 
+          },
+          settings = {
+            lint = { enable = true },
+            format = { enable = false },
+          },
         },
       },
       -- you can do any additional lsp server setup here
@@ -242,15 +280,15 @@ return {
       })
     end
 
-    if LazyVim.lsp.is_enabled("denols") and LazyVim.lsp.is_enabled("vtsls") then
-      local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
-      LazyVim.lsp.disable("vtsls", is_deno)
-      LazyVim.lsp.disable("denols", function(root_dir, config)
-        if not is_deno(root_dir) then
-          config.settings.deno.enable = false
-        end
-        return false
-      end)
-    end
+    -- if LazyVim.lsp.is_enabled("denols") and LazyVim.lsp.is_enabled("vtsls") then
+    --   local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
+    --   LazyVim.lsp.disable("vtsls", is_deno)
+    --   LazyVim.lsp.disable("denols", function(root_dir, config)
+    --     if not is_deno(root_dir) then
+    --       config.settings.deno.enable = false
+    --     end
+    --     return false
+    --   end)
+    -- end
   end,
 }

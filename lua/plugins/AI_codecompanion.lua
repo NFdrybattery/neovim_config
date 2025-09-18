@@ -33,43 +33,52 @@ return {
             },
           })
         end,
-        glm = function()
-          return{
-            name = "glm",
-            url  = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-            env  = { api_key = os.getenv("GLM_API_KEY") },
-            headers = {
-              ["Authorization"] = "Bearer ${api_key}",
-              ["Content-Type"]  = "application/json",
-            },
-            opts = { stream = true, tools = false },
-            handlers = {
-              setup = function(self) return true end,
-              form_messages = function(self, msgs) return { messages = msgs } end,
-              chat_output = function(self, data) return { status="success", output=data } end,
-            },
-            schema = {
-              model = { default = "glm-4.5-flash" },
-              temperature = { type="number", default=0.7 },
-            },
-          }
-        end
+        -- glm = function()
+        --   return{
+        --     name = "glm",
+        --     url  = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        --     env  = { api_key = os.getenv("GLM_API_KEY") },
+        --     headers = {
+        --       ["Authorization"] = "Bearer ${api_key}",
+        --       ["Content-Type"]  = "application/json",
+        --     },
+        --     roles = {
+        --       llm =  "GLM",
+        --       user = "用户",
+        --     },
+        --     opts = { stream = true, tools = false },
+        --     handlers = {
+        --       setup = function(self) return true end,
+        --       form_messages = function(self, msgs) return { messages = msgs } end,
+        --       chat_output = function(self, data) return { status="success", output=data } end,
+        --     },
+        --     schema = {
+        --       model = { default = "glm-4.5-flash" },
+        --       temperature = { type="number", default=0.7 },
+        --     },
+        --     features = {
+        --       tool_code = false,
+        --       tool_resources = false,
+        --       auto_tool_name = false,
+        --     },
+        --   }
+        -- end
       }, 
       -- 策略配置
       strategies = {
         chat = {
-          -- adapter = {
-          --   name = "deepseek",
-          --   model = 'deepseek-chat',
-          --   max_tokens = 1024,
-          --   temperature = 0.7, -- 可选：控制生成结果的随机性
-          -- },
           adapter = {
-            name = "glm",
-            model = 'glm-4.5-flash',
+            name = "deepseek",
+            model = 'deepseek-chat',
             max_tokens = 1024,
             temperature = 0.7, -- 可选：控制生成结果的随机性
           },
+          -- adapter = {
+          --   name = "glm",
+          --   model = 'glm-4.5-flash',
+          --   max_tokens = 1024,
+          --   temperature = 0.7, -- 可选：控制生成结果的随机性
+          -- },
           roles = {
             llm = "󱢴 | DeepSeek",
             -- llm = " | GLM-4.5",
@@ -82,18 +91,18 @@ return {
         },
         inline = {
           adapter = {
-            -- name = "deepseek",
-            -- model = "deepseek-chat",
-            name = "glm",
-            model = "glm-4.5-flash",
+            name = "deepseek",
+            model = "deepseek-chat",
+            -- name = "glm",
+            -- model = "glm-4.5-flash",
           }
         },
         agent = {
           adapter = {
-            -- name = "deepseek",
-            -- model = "deepseek-chat",
-            name = "glm",
-            model = "glm-4.5-flash",
+            name = "deepseek",
+            model = "deepseek-chat",
+            -- name = "glm",
+            -- model = "glm-4.5-flash",
           }
         },
       },
@@ -136,7 +145,7 @@ return {
       },
       extensions = {
         history = {
-          enabled = true,
+          enabled = false,
           opts = {
             -- Keymap to open history from chat buffer (default: gh)
             keymap = "gh",
@@ -158,18 +167,18 @@ return {
             auto_generate_title = true,
             title_generation_opts = {
               ---Adapter for generating titles (defaults to active chat's adapter)
-              -- adapter = "deepseek",           -- e.g "copilot"
-              adapter = "glm",
+              adapter = "deepseek",           -- e.g "copilot"
+              -- adapter = "glm",
               ---Model for generating titles (defaults to active chat's model)
-              -- model = "deepseek-chat",        -- e.g "gpt-4o"
-              model = "glm",
+              model = "deepseek-chat",        -- e.g "gpt-4o"
+              -- model = "glm",
               ---Number of user prompts after which to refresh the title (0 to disable)
               refresh_every_n_prompts = 10,   -- e.g., 3 to refresh after every 3rd user prompt
               ---Maximum number of times to refresh the title (default: 3)
-              max_refreshes = 3,
+              max_refreshes = 1,
             },
             ---On exiting and entering neovim, loads the last chat on opening chat
-            continue_last_chat = true,
+            continue_last_chat = false,
             ---When chat is cleared with `gx` delete the chat from history
             delete_on_clearing_chat = false,
             ---Directory path to save the chats

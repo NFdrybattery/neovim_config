@@ -5,7 +5,7 @@ return {
     vscode = true,
     lazy = true,
 	dependencies = {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
     },
     opts = {},
 }

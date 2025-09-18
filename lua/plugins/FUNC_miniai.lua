@@ -1,6 +1,6 @@
 -- miniai插件，更好的内容选择
 return {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
 	-- version = "*",
 	lazy = true,
     vscode = true,

@@ -1,7 +1,7 @@
 return {
   -- disable
   -- { "folke/persistence.nvim", enabled = false },
-  { "echasnovski/mini.comment", enabled = false },
+  { "nvim-mini/mini.comment", enabled = false },
   { "kkharji/sqlite.lua", enabled = false },
   { "nvim-treesitter/nvim-treesitter-textobjects", enabled = false },
   { "JoosepAlviste/nvim-ts-context-commentstring", enabled = false },

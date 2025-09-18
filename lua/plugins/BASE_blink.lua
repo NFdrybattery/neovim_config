@@ -7,7 +7,10 @@ return {
   opts = {
     completion = { 
       accept = { auto_brackets = { enabled = false }, },
-      list = { selection = { preselect = true, auto_insert = false } },
+      list = { 
+        selection = { preselect = true, auto_insert = false },
+        max_items = 10,
+      },
       menu = {
         auto_show = true,
         min_width = 30, 
@@ -17,16 +20,28 @@ return {
             { "label", "label_description", gap = 1 },
             { "kind_icon", gap = 1 , "source_name", gap = 1 }, 
           },
+          components = {
+            label = {
+              ellipsis = true,
+              width = { fill = true, max = 50 },
+            }, 
+          }, 
           -- treesitter = { 'lsp' }, 
         }, 
+        -- direction_priority = { 's', 'n' },
       },
       documentation = { 
         auto_show = true,
         auto_show_delay_ms = 100, 
+        treesitter_highlighting = false,
         window = {
           min_width = 50, 
           max_width = 80,
           border = "single",
+          direction_priority = {
+            menu_north = { 'e', 'n', 's' },
+            menu_south = { 'e', 's', 'n' },
+          },
         }, 
       }, 
       ghost_text = {
@@ -34,7 +49,7 @@ return {
       }, 
     },
     sources = {
-      default = { 'lsp', 'path', 'buffer','codeium' },
+      default = { 'lsp', 'path', 'buffer', 'codeium' },
       providers = {
         codeium = { name = 'Codeium', module = 'codeium.blink', async = false, max_items =3,min_keyword_length = 1 },
       },
@@ -57,14 +72,14 @@ return {
       ['<A-n>'] = { 'scroll_documentation_down', 'fallback' },
       ['<Tab>'] = { 'select_and_accept', 'fallback' },
     },
-    signature = { enabled = true }, 
+    signature = { enabled = false }, 
     cmdline = { 
       enabled = true,
       keymap = { preset = 'cmdline' },
       sources = { 'buffer', 'cmdline' },
     }, 
     appearance = {
-      nerd_font_variant = 'mono', 
+      nerd_font_variant = 'normal', 
       kind_icons = {
         Codeium = "", 
         Copilot = "",

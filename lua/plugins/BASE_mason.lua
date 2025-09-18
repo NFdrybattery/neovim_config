@@ -2,7 +2,7 @@
 return {
   "mason-org/mason.nvim",
   version = "*",
-  vscode = true,
+  vscode = false,
   lazy = true,
   opts = {
     ensure_installed = {
