@@ -2,7 +2,7 @@
 return {
   {
     "stevearc/conform.nvim",
-	-- version = "*",
+    version = "*",
     lazy = true,
     vscode = false,
     opts = function()

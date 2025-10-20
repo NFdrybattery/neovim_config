@@ -2,7 +2,7 @@
 return {
   {
     "AckslD/nvim-neoclip.lua",
-	-- version = "*",
+    version = "*",
     lazy = true,
     vscode = false,
     event = { "BufReadPre", "BufNewFile" }, -- 确保插件在打开文件时加载

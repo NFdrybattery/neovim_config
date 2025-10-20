@@ -1,8 +1,8 @@
 -- miniai插件，更好的内容选择
 return {
     "nvim-mini/mini.ai",
-	-- version = "*",
-	lazy = true,
+    version = "*",
+    lazy = true,
     vscode = true,
     opts = function()
         local ai = require("mini.ai")

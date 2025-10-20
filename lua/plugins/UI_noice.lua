@@ -1,8 +1,8 @@
 -- lazy.nvim
 return {
     "folke/noice.nvim",
-	-- version = "*",
-	lazy = true,
+    version = "*",
+    lazy = true,
     vscode = false,
     -- event = "VeryLazy",
     opts = {

@@ -1,9 +1,8 @@
 -- 按键提示
 return{
   "folke/which-key.nvim",
-  -- version = "*",
+  version = "*",
   --lazy = true,
-  --event = "VeryLazy", -- 延迟加载
   keys = {"<leader>" },
   -- vscode = false,
   opts = {

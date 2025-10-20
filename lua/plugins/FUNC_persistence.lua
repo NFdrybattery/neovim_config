@@ -1,7 +1,7 @@
 return {
   {
     "folke/persistence.nvim",
-	-- version = "*",
+    version = "*",
     lazy = true,
     opts = {
       options = { "buffers", "globals", "tabpages", "winsize" },

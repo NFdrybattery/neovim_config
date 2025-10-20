@@ -1,7 +1,7 @@
 -- bufferline缓冲区插件
 return {
   'akinsho/bufferline.nvim',
-  -- version = "*",
+  version = "*",
   -- lazy = true,
   event = "BufWinEnter",
   vscode = false,

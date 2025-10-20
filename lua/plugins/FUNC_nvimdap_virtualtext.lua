@@ -1,6 +1,6 @@
 return {
   "theHamsta/nvim-dap-virtual-text",
-  -- version = "*",
+  version = "*",
   lazy = true,
   vscode = false,
   -- event = {"BufReadPre", "BufNewFile"}, 

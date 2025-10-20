@@ -1,7 +1,7 @@
 -- mason插件管理
 return {
   "mason-org/mason.nvim",
-  version = "*",
+  -- version = "*",
   vscode = false,
   lazy = true,
   opts = {

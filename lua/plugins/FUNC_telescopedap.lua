@@ -1,7 +1,7 @@
 return {
   {
     "nvim-telescope/telescope-dap.nvim",
-	-- version = "*",
+    version = "*",
     lazy = true,
     vscode = false,
     dependencies = {

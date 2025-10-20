@@ -2,7 +2,7 @@
 return {
   {
     'lukas-reineke/virt-column.nvim',
-	-- version = "*",
+    version = "*",
     lazy = true,
     vscode = false,
     ft = {"python"},

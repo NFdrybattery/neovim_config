@@ -145,7 +145,7 @@ return {
       },
       extensions = {
         history = {
-          enabled = false,
+          enabled = true,
           opts = {
             -- Keymap to open history from chat buffer (default: gh)
             keymap = "gh",
