@@ -1,7 +1,7 @@
 return {
   {
     "mfussenegger/nvim-lint",
-	-- version = "*",
+    version = "*",
     lazy = true,
     vscode = false,
     --event = "VeryLazy", -- 延迟加载

@@ -1,7 +1,7 @@
 return {
   {
     "mfussenegger/nvim-dap",
-	-- version = "*",
+    version = "*",
     lazy = true,
     vscode = false,
     keys = { "<leader>dd" },

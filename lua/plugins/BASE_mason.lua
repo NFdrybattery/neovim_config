@@ -1,14 +1,13 @@
 -- mason插件管理
 return {
   "mason-org/mason.nvim",
-  -- version = "*",
+  version = "*",
   vscode = false,
   lazy = true,
   opts = {
     ensure_installed = {
       "python-lsp-server",
       "ruff",
-      "yapf", 
     },
     ignore = {
       "markdown-toc", -- 禁止安装的组件

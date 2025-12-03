@@ -2,16 +2,16 @@
 return {
   {
     "Exafunction/windsurf.nvim",
-    -- version = "*",
+    version = "*",
     -- lazy = true,
     vscode = false,
     -- ft = {"python"},
     event = { "BufReadPre", "BufNewFile" }, -- 确保插件在打开文件时加载
     dependencies = {
-          "nvim-lua/plenary.nvim",
-          -- "hrsh7th/nvim-cmp",
-          "saghen/blink.cmp", 
-      },
+      "nvim-lua/plenary.nvim",
+      -- "hrsh7th/nvim-cmp",
+      "saghen/blink.cmp",
+    },
     config = function()
       require("codeium").setup({
         enable_chat = false,
@@ -20,6 +20,6 @@ return {
           enabled = false,
         },
       })
-    end, 
+    end,
   }
 }
