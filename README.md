@@ -5,7 +5,7 @@
 // 备份当前配置
 Move-Item $env:LOCALAPPDATA\nvim $env:LOCALAPPDATA\nvim.bak
 // 克隆配置文件
-git clone https://github.com/NFdrybattery/nvim $env:LOCALAPPDATA\nvim
+git clone https://github.com/NFdrybattery/neovim_config $env:LOCALAPPDATA\nvim
 ```
 
 # 插件自定义情况
