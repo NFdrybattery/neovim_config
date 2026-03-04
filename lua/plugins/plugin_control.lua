@@ -8,14 +8,15 @@ return {
   { "catppuccin/catppuccin", enabled = false },
   { "windwp/nvim-ts-autotag", enabled = false },
   -- { "rafamadriz/friendly-snippets", enabled = false },
-  { "garymjr/nvim-snippets", enabled = false },
+  -- { "garymjr/nvim-snippets", enabled = false },
   { "hrsh7th/cmp-path", enabled = false },
   
-  { "iamcco/markdown-preview.nvim", enabled = false },
+  -- { "iamcco/markdown-preview.nvim", enabled = false },
   -- { "Exafunction/windsurf.nvim", enabled = false },
   { "zbirenbaum/copilot-cmp", enabled = false },
   { "zbirenbaum/copilot.lua", enabled = false },
   { "CopilotC-Nvim/CopilotChat.nvim", enabled = false },
+  -- { "HiPhish/rainbow-delimiters.nvim", enabled = false },
   
   
   

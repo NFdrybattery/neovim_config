@@ -78,7 +78,7 @@ vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
 
     -- 可选：调试日志
     -- print(string.format("Indent: %s %d (%s)", 
-    --   rule[1] and "spaces" : "tabs", rule[2], ft))
+    --   rule[1] and "spaces" or "tabs", rule[2], ft))
   end
 })
 

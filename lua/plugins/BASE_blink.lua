@@ -47,9 +47,9 @@ return {
       },
     },
     sources = {
-      default = { 'lsp', 'path','snippets', 'buffer', 'codeium' },
+      default = { 'lsp', 'path', 'buffer', 'codeium','snippets' },
       providers = {
-        codeium = { name = 'Codeium', module = 'codeium.blink', async = false, max_items = 3, min_keyword_length = 1 },
+        codeium = { name = 'Codeium', module = 'codeium.blink', async = true, max_items = 5, min_keyword_length = 1 },
       },
     },
     fuzzy = {

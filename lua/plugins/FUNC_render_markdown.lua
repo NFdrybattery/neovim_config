@@ -4,7 +4,7 @@ return {
     version = "*",
     -- lazy = true,
     vscode = false,
-    ft = {"markdown"},
+    -- ft = {"markdown"},
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
     },

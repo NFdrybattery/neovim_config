@@ -8,6 +8,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     "ravitemer/codecompanion-history.nvim",
+    "MeanderingProgrammer/render-markdown.nvim",
   },
   keys = {
     { "<Leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Chat",  mode = { "n" }, noremap = true, silent = true },
@@ -22,7 +23,7 @@ return {
         language = "Chinese", -- 设置默认语言为中文
         send_code = false,    -- 是否发送代码上下文（根据需求调整）
         system_prompt = function(opts)
-          return "你是一个智能编程助手，请用中文回答以下问题，保持简洁、准确、专业，对代码函数用法的问题给出简单的示范用法。"
+          return "你是资深 Python 工程师与教学者。环境：Windows 11，Python 3.14。交互语言：中文。只允许以对话/解释方式回答用户问题；不要返回完整程序实现或整文件代码。输出须包含（按需）以下部分：1.问题解答：高层设计与思路，算法复杂度，关键注意点（中文，精练）。2.代码解释：针对用户给出的代码段逐行或按逻辑块解释其行为与可能的问题（可指出改进方向）。若提供代码片段，务必限制在不超过 12 行、仅用于阐明要点。3.运行示例：用自然语言或最小命令示例说明如何在 Windows（cmd/PowerShell）运行，给出示例输入与预期输出；示例中的代码片段不得超过 12 行。"
         end,
       },
       adapters = {
@@ -106,6 +107,20 @@ return {
           }
         },
       },
+      rules = {
+        default = {
+          description = "My default group",
+          files = {
+            "~/.rules/codecompanion.md",
+          },
+        },
+        opts = {
+          chat = {
+            autoload = "default",
+            enabled = true, 
+          },
+        },
+      }, 
       -- 界面显示配置
       display = {
         chat = {

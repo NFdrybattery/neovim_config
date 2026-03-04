@@ -113,7 +113,7 @@ return{
               plugins = {
                 jedi = { enabled = true },
                 ruff = { enabled = false },
-                pylsp_yapf = { enabled = false },
+                yapf = { enabled = false },
                 flake8 = { enabled = false },
                 mccabe = { enabled = false },
                 pycodestyle = { enabled = false },

@@ -27,6 +27,7 @@ return {
         "markdown_inline",
         "latex",
       },
+      ignore_install = {"all"}, 
       highlight = {
         enable = true,
         -- disable_on_undo = true,  -- 撤销时临时禁用高亮

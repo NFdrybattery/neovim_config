@@ -28,7 +28,7 @@ return {
     end,
     keys={
       {
-        '<leader>dc', "<cmd>lua vim.cmd('w') require('dap').continue()<CR>",desc="保存并调试", mode = { "n" }
+        '<leader>dd', "<cmd>lua vim.cmd('w') require('dap').continue()<CR>",desc="保存并调试", mode = { "n" }
       },
     }, 
   }, 
