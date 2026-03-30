@@ -37,8 +37,8 @@ if vim.g.neovide then
   --vim.g.neovide_no_idle = true  -- 禁止空闲时占用资源
 end
 -- 基本设置
+vim.o.guifont = "Maple Mono NF CN:h12"
 local opt = vim.opt
-opt.guifont = { "JetBrainsMono NFP", "Maple Mono NF CN", ":h12" }
 opt.wrap = false
 opt.relativenumber = true
 opt.scrolloff = 4 -- 上下端行数

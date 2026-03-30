@@ -16,8 +16,8 @@ return {
   { "zbirenbaum/copilot-cmp", enabled = false },
   { "zbirenbaum/copilot.lua", enabled = false },
   { "CopilotC-Nvim/CopilotChat.nvim", enabled = false },
-  -- { "HiPhish/rainbow-delimiters.nvim", enabled = false },
-  
+  -- { "olimorris/codecompanion.nvim", enabled = false },
+  -- { "folke/sidekick.nvim", enabled = false },
   
   
 }
