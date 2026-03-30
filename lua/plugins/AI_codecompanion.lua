@@ -1,19 +1,19 @@
 -- codecompanion插件
 return {
   "olimorris/codecompanion.nvim",
-  version = "*",
+  version = "19.5.0",
   lazy = true,
   vscode = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     "ravitemer/codecompanion-history.nvim",
-    "MeanderingProgrammer/render-markdown.nvim",
   },
   keys = {
     { "<Leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Chat",  mode = { "n" }, noremap = true, silent = true },
     { "<Leader>an", "<cmd>CodeCompanionChat<cr>",        desc = "New Chat",     mode = { "n" }, noremap = true, silent = true },
     { "<Leader>ah", "<cmd>CodeCompanionHistory<cr>",     desc = "Chat History", mode = { "n" }, noremap = true, silent = true },
+    { "<Leader>ac", "<cmd>CodeCompanionCLI<cr>", desc = "Toggle Chat",  mode = { "n" }, noremap = true, silent = true },
     { "<Leader>aA", "<cmd>CodeCompanionActions<cr>",     desc = "Code Actions", mode = { "n" }, noremap = true, silent = true },
   },
   config = function()
@@ -22,90 +22,73 @@ return {
       opts = {
         language = "Chinese", -- 设置默认语言为中文
         send_code = false,    -- 是否发送代码上下文（根据需求调整）
-        system_prompt = function(opts)
-          return "你是资深 Python 工程师与教学者。环境：Windows 11，Python 3.14。交互语言：中文。只允许以对话/解释方式回答用户问题；不要返回完整程序实现或整文件代码。输出须包含（按需）以下部分：1.问题解答：高层设计与思路，算法复杂度，关键注意点（中文，精练）。2.代码解释：针对用户给出的代码段逐行或按逻辑块解释其行为与可能的问题（可指出改进方向）。若提供代码片段，务必限制在不超过 12 行、仅用于阐明要点。3.运行示例：用自然语言或最小命令示例说明如何在 Windows（cmd/PowerShell）运行，给出示例输入与预期输出；示例中的代码片段不得超过 12 行。"
-        end,
       },
       adapters = {
-        deepseek = function()
-          return require("codecompanion.adapters").extend("deepseek", {
-            env = {
-              api_key = os.getenv("DEEPSEEK_API_KEY"),
-            },
-          })
-        end,
-        -- glm = function()
-        --   return{
-        --     name = "glm",
-        --     url  = "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-        --     env  = { api_key = os.getenv("GLM_API_KEY") },
-        --     headers = {
-        --       ["Authorization"] = "Bearer ${api_key}",
-        --       ["Content-Type"]  = "application/json",
-        --     },
-        --     roles = {
-        --       llm =  "GLM",
-        --       user = "用户",
-        --     },
-        --     opts = { stream = true, tools = false },
-        --     handlers = {
-        --       setup = function(self) return true end,
-        --       form_messages = function(self, msgs) return { messages = msgs } end,
-        --       chat_output = function(self, data) return { status="success", output=data } end,
-        --     },
-        --     schema = {
-        --       model = { default = "glm-4.5-flash" },
-        --       temperature = { type="number", default=0.7 },
-        --     },
-        --     features = {
-        --       tool_code = false,
-        --       tool_resources = false,
-        --       auto_tool_name = false,
-        --     },
-        --   }
-        -- end
+        http = {
+          deepseek = function()
+            return require("codecompanion.adapters").extend("deepseek", {
+              env = {
+                api_key = os.getenv("DEEPSEEK_API_KEY"),
+              },
+            })
+          end,
+          glm = function()
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              env = {
+                url  = "https://open.bigmodel.cn/api/paas/v4",
+                api_key = os.getenv("GLM_API_KEY"), 
+                chat_url = "/chat/completions", 
+              },
+              schema = {
+                model = { default = "glm-4.7-flash" },
+              },
+            })
+          end,
+          qwen = function()
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              env = {
+                url = "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                api_key = os.getenv("QWEN_API_KEY"), 
+                chat_url = "/chat/completions", 
+              },
+              schema = {
+                model = { default = "qwen3.5-flash" },
+              },
+            })
+          end,
+        },
       }, 
       -- 策略配置
-      strategies = {
+      interactions = {
         chat = {
-          adapter = {
-            name = "deepseek",
-            model = 'deepseek-chat',
-            max_tokens = 1024,
-            temperature = 0.7, -- 可选：控制生成结果的随机性
-          },
-          -- adapter = {
-          --   name = "glm",
-          --   model = 'glm-4.5-flash',
-          --   max_tokens = 1024,
-          --   temperature = 0.7, -- 可选：控制生成结果的随机性
-          -- },
+          adapter = "qwen",
           roles = {
-            llm = "󱢴 | DeepSeek",
-            -- llm = " | GLM-4.5",
-            user = "󰠗 |",
+            llm = function(adapter)
+              return "󱢴 | " .. adapter.formatted_name
+            end,
+            user = "󰠗 | User",
           },
-          auto_scroll = true,
           opts = {
             completion_provider = "blink", -- blink|cmp|coc|default
           },
         },
         inline = {
-          adapter = {
-            name = "deepseek",
-            model = "deepseek-chat",
-            -- name = "glm",
-            -- model = "glm-4.5-flash",
-          }
+          adapter = "qwen"
         },
         agent = {
-          adapter = {
-            name = "deepseek",
-            model = "deepseek-chat",
-            -- name = "glm",
-            -- model = "glm-4.5-flash",
-          }
+          adapter = "qwen"
         },
+        cli = {
+          agent = "qwen", 
+          agents = {
+            qwen = {
+              cmd = "qwen", 
+              args = {},
+              description = "Qwen CLI",
+              provider = "buffer",
+            }, 
+          }, 
+        }, 
       },
       rules = {
         default = {
@@ -127,13 +110,15 @@ return {
           icons = {
             pinned_buffer = " ", -- 固定缓冲区的图标
             watched_buffer = "👀 ", -- 监视缓冲区的图标
+            chat_context = "📎️",
           },
+          fold_context = true,
           window = {
             layout = "vertical",      -- 布局方式：vertical|horizontal|float|buffer
             position = "left",        -- 位置：left|right|top|bottom
             border = "rounded",       -- 边框样式：single|double|rounded|solid|shadow|none
             height = 0.9,             -- 窗口高度（比例）
-            width = 0.25,             -- 窗口宽度（比例）
+            width = 0.3,             -- 窗口宽度（比例）
             -- 高级位置微调（可选）
             row = 1,                  -- 垂直偏移（从顶部开始的行数）
             col = 200,                -- 水平偏移（从左侧开始的列数）
@@ -150,13 +135,20 @@ return {
               -- 其他选项...
             },
           },
-          show_header_separator = true, -- Show header separators in the chat buffer? Set this to false if you're using an external markdown formatting plugin
-          separator = "─", -- The separator between the different messages in the chat buffer
+          show_header_separator = true,
           show_references = true, -- Show references (from slash commands and variables) in the chat buffer?
-          show_settings = false, -- Show LLM settings at the top of the chat buffer?
-          show_token_count = true, -- Show the token count for each response?
           start_in_insert_mode = false, -- Open the chat buffer in insert mode?
         },
+        cli = {
+          window = {
+            layout = "vertical",
+            width = 0.3,
+            height = 0.6,
+            opts = {
+              list = false,
+            },
+           }, 
+        }, 
       },
       extensions = {
         history = {
@@ -182,11 +174,9 @@ return {
             auto_generate_title = true,
             title_generation_opts = {
               ---Adapter for generating titles (defaults to active chat's adapter)
-              adapter = "deepseek",           -- e.g "copilot"
-              -- adapter = "glm",
+              adapter = "glm",
               ---Model for generating titles (defaults to active chat's model)
-              model = "deepseek-chat",        -- e.g "gpt-4o"
-              -- model = "glm",
+              model = "glm-4.7-flash",
               ---Number of user prompts after which to refresh the title (0 to disable)
               refresh_every_n_prompts = 10,   -- e.g., 3 to refresh after every 3rd user prompt
               ---Maximum number of times to refresh the title (default: 3)
