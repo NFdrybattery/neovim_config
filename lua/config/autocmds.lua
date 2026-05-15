@@ -26,35 +26,61 @@ if vim.g.vscode == nil then
   })
 end
 
--- 检查是否在 Neovide 中运行
+-- Neovide 自动输入法切换：常规窗口根据编辑模式切换，terminal 窗口保持输入法常开
 if vim.g.neovide then
-  -- 判断当前是否为 terminal 窗口
-  local function is_terminal()
-    return vim.bo.buftype == "terminal"
+  -- 标记 terminal buffer（使用 buffer 局部变量）
+  vim.api.nvim_create_autocmd("TermOpen", {
+    callback = function()
+      vim.b.neovide_ime_terminal = true
+    end,
+  })
+
+  -- 设置输入法状态
+  local function set_ime(args)
+    local is_term = vim.b.neovide_ime_terminal
+    local enter_event = args.event:match("Enter$") ~= nil
+    
+    -- terminal 窗口保持输入法常开
+    if is_term then
+      vim.g.neovide_input_ime = true
+      return
+    end
+    
+    -- 常规窗口：Enter 结尾的事件表示进入某模式，启用输入法；否则禁用
+    vim.g.neovide_input_ime = enter_event
   end
 
-  -- 在 terminal 窗口中不调整输入法（使用常规命令行模式处理）
-  if is_terminal() then
-    -- neovide 自动输入法切换
-    local function set_ime(args)
-      if args.event:match("Enter$") then
-        vim.g.neovide_input_ime = true
-      else
-        vim.g.neovide_input_ime = false
-      end
+  -- 进入 buffer 时初始化输入法状态
+  local function on_buf_enter()
+    if vim.b.neovide_ime_terminal then
+      vim.g.neovide_input_ime = true
+    else
+      vim.g.neovide_input_ime = false
     end
-    local ime_input = vim.api.nvim_create_augroup("ime_input", { clear = true })
-    vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
-      group = ime_input,
-      pattern = "*",
-      callback = set_ime
-    })
-    vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
-      group = ime_input,
-      pattern = "[/\\?]",
-      callback = set_ime
-    })
   end
+
+  local ime_input = vim.api.nvim_create_augroup("ime_input", { clear = true })
+
+  -- 插入模式切换
+  vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+    group = ime_input,
+    pattern = "*",
+    callback = set_ime
+  })
+
+  -- 命令行模式切换
+  vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
+    group = ime_input,
+    pattern = "*",
+    callback = set_ime
+  })
+
+  -- Buffer 进入时初始化输入法状态
+  vim.api.nvim_create_autocmd("BufEnter", {
+    group = ime_input,
+    pattern = "*",
+    callback = on_buf_enter
+  })
 end
 
 -- 自动监测文件类型切换缩进方案，默认 4 空格

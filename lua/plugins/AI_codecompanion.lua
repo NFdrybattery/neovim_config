@@ -11,9 +11,7 @@ return {
   },
   keys = {
     { "<Leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Chat",  mode = { "n" }, noremap = true, silent = true },
-    { "<Leader>an", "<cmd>CodeCompanionChat<cr>",        desc = "New Chat",     mode = { "n" }, noremap = true, silent = true },
     { "<Leader>ah", "<cmd>CodeCompanionHistory<cr>",     desc = "Chat History", mode = { "n" }, noremap = true, silent = true },
-    { "<Leader>ac", "<cmd>CodeCompanionCLI<cr>", desc = "Toggle Chat",  mode = { "n" }, noremap = true, silent = true },
     { "<Leader>aA", "<cmd>CodeCompanionActions<cr>",     desc = "Code Actions", mode = { "n" }, noremap = true, silent = true },
   },
   config = function()
