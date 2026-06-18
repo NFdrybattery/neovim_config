@@ -8,7 +8,7 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- 自动切换到 python 文件夹
-if vim.g.vscode == nil then
+if vim.g.vscode == nil and vim.g.neovide then
   local function delayed_action()
     vim.cmd("cd D:\\40_Code\\10_py\\GroundTemperatureField") -- 切换目录
     --print("Current directory: " .. vim.fn.getcwd()) -- 打印当前目录

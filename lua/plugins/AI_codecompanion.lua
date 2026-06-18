@@ -59,7 +59,7 @@ return {
       -- 策略配置
       interactions = {
         chat = {
-          adapter = "qwen",
+          adapter = "deepseek",
           roles = {
             llm = function(adapter)
               return "󱢴 | " .. adapter.formatted_name
@@ -71,18 +71,18 @@ return {
           },
         },
         inline = {
-          adapter = "qwen"
+          adapter = "deepseek",
         },
         agent = {
-          adapter = "qwen"
+          adapter = "deepseek",
         },
         cli = {
-          agent = "qwen", 
+          agent = "opencode", 
           agents = {
-            qwen = {
-              cmd = "qwen", 
+            opencode = {
+              cmd = "opencode", 
               args = {},
-              description = "Qwen CLI",
+              description = "Opencode",
               provider = "buffer",
             }, 
           }, 
@@ -172,9 +172,9 @@ return {
             auto_generate_title = true,
             title_generation_opts = {
               ---Adapter for generating titles (defaults to active chat's adapter)
-              adapter = "glm",
+              adapter = "deepseek",
               ---Model for generating titles (defaults to active chat's model)
-              model = "glm-4.7-flash",
+              model = "deepseek-v4-flash",
               ---Number of user prompts after which to refresh the title (0 to disable)
               refresh_every_n_prompts = 10,   -- e.g., 3 to refresh after every 3rd user prompt
               ---Maximum number of times to refresh the title (default: 3)

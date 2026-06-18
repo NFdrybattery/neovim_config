@@ -6,7 +6,7 @@ return {
   opts = {
     -- add any options here
     cli = {
-      default_tool = "qwen",
+      default_tool = "claude",
       win = {
         layout = "right",
         split = {
@@ -20,6 +20,12 @@ return {
       tools = {
         qwen = {
           model = "qwen3.5-flash",
+        },
+        claude = {
+          model = "default",
+        },
+        opencode = {
+          model = "DeepSeek-V4-Pro",
         },
       },
     },
@@ -44,12 +50,19 @@ return {
       mode = { "n", "t", "i", "x" },
     },
     {
-      "<leader>aa",false
+      "<leader>aa",
+      function() require("sidekick.cli").toggle() end,
+      desc = "Sidekick Toggle CLI",
     },
     {
       "<leader>ac",
-      function() require("sidekick.cli").toggle({name = "qwen", focus = true}) end,
-      desc = "Sidekick Toggle CLI",
+      function() require("sidekick.cli").toggle({name = "claude", focus = true}) end,
+      desc = "Sidekick Toggle Claude",
+    },
+    {
+      "<leader>ao",
+      function() require("sidekick.cli").toggle({name = "opencode", focus = true}) end,
+      desc = "Sidekick Toggle Opencode",
     },
     {
       "<leader>at",
